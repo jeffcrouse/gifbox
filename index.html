@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Play Machine</title>
+	<style>
+	html,body{
+		background-color: black;
+		height:100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	</style>
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+  </head>
+  <body>
+	<img id="thegif" />
+	<script src="/static/jquery-1.11.1.min.js"></script>
+	<script src="/static/fit.min.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		var ws = new WebSocket("ws://{{ ws_host }}:8888/ws?Id=123456789");
+		var thegif = $("#thegif").get(0);
+		var body = $("body").get(0);
+		var options = {
+			hAlign: fit.CENTER, // or fit.LEFT, fit.RIGHT
+			vAlign: fit.CENTER, // or fit.TOP, fit.BOTTOM
+			cover: false,
+			watch: false,
+			apply: true
+		};
+		thegif.onload = function () {
+			fit( thegif, body, options );   	
+		};
+		ws.onopen = function() {
+			console.log("onopen")
+			ws.send("Hey, I'm connected!");
+		};
+		ws.onmessage = function (evt) { 
+			console.log("onmessage")
+			var json = JSON.parse(evt.data);
+			if(json.action=='showgif') {
+				thegif.src = json.url;
+			}
+		};
+		ws.onclose = function() { 
+			console.log("onclose")
+		};
+	});
+	</script>
+  </body>
+</html>
