@@ -15,8 +15,8 @@ Little Python/Tornado server that cycles through gifs, plus instructions for how
 1. Login: pi/raspberry
 1. `sudo apt-get update`
 1. `sudo apt-get upgrade`
-1. Remote desktop: `sudo apt-get install xrdp`
-1. Filesharing `sudo apt-get install netatalk`
+1. `sudo rpi-update`
+1. Remote desktop & filesharing: `sudo apt-get install xrdp netatalk`
 1. [change hostname to something useful](http://www.howtogeek.com/167195/how-to-change-your-raspberry-pi-or-other-linux-devices-hostname/)
 	1. `sudo nano /etc/hosts`
 	1. `sudo nano /etc/hostname`
